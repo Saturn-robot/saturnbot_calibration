@@ -1,6 +1,6 @@
 # 概述
 
-本功能包用于saturnbot机器人的校正以及性能测试。其中校正主要包括线速度校正、角速度校正、摄像头的校正、IMU的校正等等。
+本功能包用于saturnbot机器人的校正以及性能测试。其中校正主要包括线速度校正、角速度校正、摄像头的校正等等。
 
 # 线速度校正
 
@@ -10,10 +10,17 @@
 roslaunch base_controller base_calibration.launch
 ```
 
-接着在你的主机上启动线速度校正：
+接着在你的主机上启动线速度校正脚本：
 
 ```
-roslaunch saturnbot_calibration linear_calibration.launch
+rosrun saturnbot_calibration calibrate_linear.py
+```
+
+
+然后打开rqt_reconfigure:
+
+```
+rosrun rqt_reconfigure rqt_reconfigure
 ```
 
 在rqt_reconfigure窗口中选择calibrate_linear节点（如果发现calibrate_linear不在列表上，点击GUI界面左下角的蓝色刷新按钮）。点击在start_test旁边的勾选框来开始测试（如果机器人没有开始运动，取消选择并重新勾选）。这时saturnbot应该会向前移动大概1米。要得到修正系数，执行以下几步：
@@ -24,7 +31,7 @@ roslaunch saturnbot_calibration linear_calibration.launch
 - 把saturnbot放回卷尺的起始端，在rqt_reconfigure窗口中勾选start_test选框，重复测试
 - 不断重复测试，直到你得到满意的结果。在1米的距离中精确到1厘米大概就是足够好的结果了
 
-当你得到最终的修正系数之后 ，你需要用该修正系数更新base_controller功能包下的参数文件中的`odom_linear_scale_correction`参数。
+当你得到最终的修正系数之后 ，你需要用该修正系数更新base_controller功能包下参数文件（包括complex_odom_params.yaml和simple_odom_params.yaml）中的`odom_linear_scale_correction`参数。
 
 # 角速度校正
 
@@ -34,10 +41,16 @@ roslaunch saturnbot_calibration linear_calibration.launch
 roslaunch base_controller base_calibration.launch
 ```
 
-接着在你的主机上启动角速度校正：
+接着在你的主机上启动角速度校正脚本：
 
 ```
-roslaunch saturnbot_calibration linear_calibration.launch
+roslaunch saturnbot_calibration calibrate_angular.py
+```
+
+然后，同样是启动rqt_reconfigure:
+
+```
+rosrun rqt_reconfigure rqt_reconfigure
 ```
 
 同样，我们需要点击start_test复选框来开始测试。该校正节点会使机器人旋转360度，但是角度测量比距离测量麻烦的多，因此建议可以找一个参照物，比如墙、或者桌子。你应该让机器人正朝墙或者桌子，然后大概估计机器人偏离的角度。执行以下步骤即可获得校正系数：
@@ -50,10 +63,8 @@ roslaunch saturnbot_calibration linear_calibration.launch
 
 - 重复上述步骤直到得到满意的结果。
 
-# IMU的校正
+同样，当你得到最终的修正系数之后 ，你需要用该修正系数更新base_controller功能包下参数文件（包括complex_odom_params.yaml和simple_odom_params.yaml）中的`odom_angular_scale_correction`参数。
 
-待续...
+# 许可证
 
-# 相机标定文件的使用
-
-待续...
+该功能包使用GPL v3.0协议。
