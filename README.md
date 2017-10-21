@@ -37,7 +37,7 @@ roslaunch base_controller base_calibration.launch
 接着在你的主机上启动角速度校正：
 
 ```
-roslaunch saturnbot_calibration linear_calibration.launch
+roslaunch saturnbot_calibration angular_calibration.launch
 ```
 
 同样，我们需要点击start_test复选框来开始测试。该校正节点会使机器人旋转360度，但是角度测量比距离测量麻烦的多，因此建议可以找一个参照物，比如墙、或者桌子。你应该让机器人正朝墙或者桌子，然后大概估计机器人偏离的角度。执行以下步骤即可获得校正系数：
